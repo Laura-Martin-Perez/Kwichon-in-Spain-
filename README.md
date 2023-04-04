@@ -19,7 +19,3 @@ Para los mapas
 
 https://github.com/martgnz/es-atlas
 
-https://www.businessintelligence.info/varios/longitud-latitud-pueblos-espana.html
-https://www.back4app.com/database/back4app/list-of-all-cities-in-finland/dataset-api
-
-google maps
