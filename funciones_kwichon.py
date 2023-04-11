@@ -1,9 +1,12 @@
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
+import matplotlib.pyplot as plt
 import geopandas as gpd
 import folium
 from folium import plugins
+from pycirclize import Circos
+from pycirclize.parser import Matrix
 
 def replace_col_data (df, col, data):
 # Devuelve un diccionario donde se reasignan los valores de la columna del dataframe por los valores del diccionario.
@@ -17,6 +20,11 @@ def replace_col_data (df, col, data):
             df[col] = df[col].replace(k, v)
             
     return df
+
+###def replace_names (df, col_list, dict):
+  ###  for col in col_list:
+    ###    replace_col_data (df, col, dict)
+    ###return df
 
 
 def migrations_tables (year_start, year_end):
@@ -33,9 +41,10 @@ def migrations_tables (year_start, year_end):
     
     return (df)
 
-def plot_sankey (df, year):
+def plot_sankey (df, year_start, year_end,plot=True):
 # Muestra gráfico Sankey pasando el dataframe y los años a visualizar
 
+    year = [y for y in range(year_start,year_end+1)]
     df = df[df['ANOVAR'].isin(year)]
     df = df.groupby(by=['TAMUBAJA','TAMUALTA'], as_index=False).count()
     df['CODTAMUBAJA']= df['TAMUBAJA'].apply(lambda x: x-1)
@@ -81,13 +90,17 @@ def plot_sankey (df, year):
          color = [color_node[i].replace('0.8','0.4') for i in source]
          ))])
 
-    fig.update_layout(title_text="Movimientos migratorios", font_size=10)
-    fig.show()
+    fig.update_layout(title_text=f'Movimientos migratorios - Desde el {year_start} al {year_end}', font_size=10)
+    if plot:
+        fig.show()
+    else:
+        return fig
 
 
-def tabla_saldo_tamu (df, year):
+def tabla_saldo_tamu (df, year_start, year_end):
 
     # se filtran por los años solicitados
+    year = [y for y in range(year_start,year_end+1)]
     df = df[df['ANOVAR'].isin(year)]
     df_saldo = pd.DataFrame()
     df_saldo_y = pd.DataFrame()
@@ -99,30 +112,32 @@ def tabla_saldo_tamu (df, year):
         condition = df_y['TAMUBAJA']==df_y['TAMUALTA']
         df_baja = df_y[~condition].groupby(by='TAMUBAJA',as_index=False).sum()
         df_alta = df_y[~condition].groupby(by='TAMUALTA',as_index=False).sum()
-        df_saldo_y['YEAR'] = [y for i in range(6) ]
-        df_saldo_y['TAMU'] = [1,2,3,4,5,6]
-        df_saldo_y['SALDO'] = df_alta['ANOVAR']- df_baja['ANOVAR']
+        df_baja = df_y.groupby(by='TAMUBAJA',as_index=False).sum()
+        df_alta = df_y.groupby(by='TAMUALTA',as_index=False).sum()
+        df_saldo_y['Año'] = [y for i in range(6) ]
+        df_saldo_y['Tamaño_municipio_alta'] = [1,2,3,4,5,6]
+        df_saldo_y['Saldo'] = df_alta['ANOVAR']- df_baja['ANOVAR']
         df_saldo = pd.concat([df_saldo, df_saldo_y], ignore_index=True)
 
     return df_saldo
 
 
-def tabla_saldo_prov (df, year, df_prov, df_pob):
+def tabla_saldo_prov (df, year_start, year_end, df_prov, df_pob):
 # Función que devuelve un dataframe donde se agrupa por provincias y se muestra el total de altas, bajas y el saldo. Se añade también el nombre de la provincia 
 # y el polígono para poder mostrar en un mapa 
+
+    year = [x for x in range(year_start, year_end+1)]
   
-    # se filtran por los años solicitados
+    # se filtra el dataframe de los saldos por los años solicitados
     df = df[df['ANOVAR'].isin(year)]
-    df_pob = df_pob[df_pob['Periodo'].isin(year)]
+    # se filtra el dataframe de las poblaciones por el año de inicio del periodo a visualizar
+    df_pob = df_pob[df_pob['Periodo']==year_start]
 
     # se eliminan las columnas innecesarias
     df.drop(columns=['SEXO','PROVNAC','EDAD','MUNIALTA','MUNIBAJA','CODMUNIALTA','CODMUNIBAJA'],inplace=True)
     df_pob.drop(columns=['Provincias'])
 
     df_saldo_prov = pd.DataFrame()
-
-    # Agurpación del dataframe de las poblaciones por provincia
-    df_pob_agr = df_pob.groupby(by='Cod_prov', as_index=False).median()
  
 
     # Agrupación por provincias de alta y baja
@@ -142,70 +157,110 @@ def tabla_saldo_prov (df, year, df_prov, df_pob):
 
     # se añade el dataframe de provincias con nombres y datos de geometria para el mapa
     df_prov['id']= df_prov['id'].apply(int)
-    df_prov_geo = df_prov.merge(df_saldo_prov, left_on="id", right_on="PROVSALDO", how="outer") 
+    df_final = df_prov.merge(df_saldo_prov, left_on="id", right_on="PROVSALDO", how="outer") 
 
     # Se añade la población por provincia y año
-    df_final = df_prov_geo.merge(df_pob_agr, left_on="PROVSALDO", right_on="Cod_prov", how="outer") 
+    df_final = df_pob.merge(df_final, left_on="Cod_prov", right_on="PROVSALDO", how="outer") 
 
-    df_final.drop(columns=['Cod_prov','Periodo'], inplace=True)
+    df_final.drop(columns=['Provincias' ,'Cod_prov','Periodo'], inplace=True)
         
     return df_final
 
-def plot_map_saldo_prov(df_geo,df,year):
+def plot_map_saldo_prov(df_geo,df,year_start, year_end,variable):
 # Función que devuelve unm mapa coroplético por provincias mostrando el saldo de la migración de la población
+
+    # se convierte el df en un geodataframe
+    df = gpd.GeoDataFrame(df, geometry="geometry")
 
     # archivo .json con polígonos de provincias
     geo = gpd.GeoSeries(df_geo.set_index('id')['geometry']).to_json()
+
     # Preparación de mapa de España de base
     mapa = folium.Map(location=[40,-4], zoom_start=6, width=700, height=500, control_scale=True, tiles='CartoDB Positron') 
+
     # Escala de colores adaptada a los valores resultantes al escoger el periodo de años
-    custom_scale = (df['SALDO'].quantile((0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1))).tolist()
+    custom_scale = (df[variable].quantile((0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1))).tolist()
+    
     # Mapa coroplético indicando las migraciones por provincia
     folium.Choropleth(
                 data=df,
-                geo_data=geo, 
-                key_on='feature.id', 
-                columns=['PROVSALDO', 'SALDO'], 
-                fill_color ='Spectral',
-                nan_fill_color='White', 
+                geo_data=geo,
+                key_on='feature.id',
+                columns=['PROVSALDO', variable], 
+                fill_color ='Spectral', nan_fill_color='White', 
                 threshold_scale = custom_scale,
-                legend_name=f'Movimientos migratorios entre {year[0]} y {year[-1]}',
-                highlight = True
+                line_color='grey', line_weight=0.1,
+                legend_name=f'Movimientos migratorios entre {year_start} y {year_end} ({variable})',
+                highlight = True,
                     ).add_to(mapa)
 
     # Se añade información sobre datos de altas, bajas y saldo de cada provincia.
     folium.features.GeoJson(
                     data =df,
-                    name= f'Movimientos migratorios entre {year[0]} y {year[-1]}',
                     smooth_factor=2,
-                    style_function=lambda x: {'color':'black','fillColor':'transparent','weight':0.5},
+                    style_function=lambda x: {'color':'grey','fillColor':'transparent','weight':0.5},
                     tooltip=folium.features.GeoJsonTooltip(
                         fields=['name',
                                 'ALTAS',
                                 'BAJAS',
                                 'SALDO',
-                                'Poblacion'
+                                'Poblacion',
+                                'Porcentaje'
                                ],
-                        aliases=["Provincia:",
+                        aliases=['Provincia:',
                                  'Altas:',
                                  'Bajas:',
-                                 "Saldo:",
-                                 "Mediana de Población del periodo:"
+                                 'Saldo:',
+                                 f'Población del año {year_start}:',
+                                 'Porcentaje de migración:'
+
                                 ], 
                         localize=True,
                         sticky=False,
                         labels=True,
                         style="""
                             background-color: #F0EFEF;
-                            border: 2px solid black;
+                            border: 2px solid grey;
                             border-radius: 3px;
                             box-shadow: 3px;
                         """,
                         max_width=800,),
                             highlight_function=lambda x: {'weight':3,'fillColor':'grey'},
-                        ).add_to(mapa) 
+                        ).add_to(mapa)
+
 
     return mapa
+
+
+def order_circle (df, cod_ccaa):
+    
+    ccaa_list = list(cod_ccaa['Provincia'])
+
+    provbaja_list = list(df['PROVBAJA'].unique())
+    provalta_list = list(df['PROVALTA'].unique())
+
+    # se prepara un filtro para guardar una lista ordenada con las provincias que si esten en la tabla
+    mask = ((cod_ccaa['Provincia'].isin(provbaja_list)) | (cod_ccaa['Provincia'].isin(provalta_list)))
+    order = [ccaa_list[i] for i in range(len(ccaa_list)) if mask[i]]
+
+    return order
+
+
+
+def plot_circle (df, order):
+    matrix = Matrix.parse_fromto_table(df)
+    circos = Circos.initialize_from_matrix(
+                    matrix,
+                    space=1,
+                    r_lim=(93, 100),
+                    cmap="gist_rainbow",
+                    label_kws=dict(size=8, r=102, color="grey", orientation='vertical'),
+                    link_kws=dict(direction=1, ec="#1f1f1f",lw=1), #lw=0.5),
+                    order = order
+                    )
+
+    fig = circos.plotfig()
+ 
 
 
 
