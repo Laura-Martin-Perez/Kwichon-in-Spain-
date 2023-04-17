@@ -21,11 +21,6 @@ def replace_col_data (df, col, data):
             
     return df
 
-###def replace_names (df, col_list, dict):
-  ###  for col in col_list:
-    ###    replace_col_data (df, col, dict)
-    ###return df
-
 
 def migrations_tables (year_start, year_end):
     # devuelve un dataframe con la descarga de archivos de migraciones de la franja de años indicada
@@ -90,7 +85,7 @@ def plot_sankey (df, year_start, year_end,plot=True):
          color = [color_node[i].replace('0.8','0.4') for i in source]
          ))])
 
-    fig.update_layout(title_text=f'Movimientos migratorios - Desde el {year_start} al {year_end}', font_size=10)
+    fig.update_layout(title_text=f'Movimientos migratorios - De {year_start} a {year_end}')
     if plot:
         fig.show()
     else:
@@ -98,6 +93,8 @@ def plot_sankey (df, year_start, year_end,plot=True):
 
 
 def tabla_saldo_tamu (df, year_start, year_end):
+# Función que genera una tabla con el año, el tamaño de municipio de alta y el saldo de migraciones
+# Se le pasa como parámetros la tabla con los tamaños de municipio de alta y baja y los años del periodo a analizar.
 
     # se filtran por los años solicitados
     year = [y for y in range(year_start,year_end+1)]
@@ -155,7 +152,7 @@ def tabla_saldo_prov (df, year_start, year_end, df_prov, df_pob):
     df_saldo_prov['BAJAS']= df_baja['ANOVAR']
     df_saldo_prov['SALDO'] = df_alta['ANOVAR']- df_baja['ANOVAR']
 
-    # se añade el dataframe de provincias con nombres y datos de geometria para el mapa
+    # Se añade el dataframe de provincias con nombres y datos de geometria para el mapa
     df_prov['id']= df_prov['id'].apply(int)
     df_final = df_prov.merge(df_saldo_prov, left_on="id", right_on="PROVSALDO", how="outer") 
 
@@ -165,6 +162,43 @@ def tabla_saldo_prov (df, year_start, year_end, df_prov, df_pob):
     df_final.drop(columns=['Provincias' ,'Cod_prov','Periodo'], inplace=True)
         
     return df_final
+
+
+def tabla_kwichon (df,col, year_start, year_end):
+
+# Función que devuelve un dataframe donde se filtra por el periodo de años pasado por parámetro, se añaden las columnas: 
+# 1=destino rural (tamaño municipio 1,2 - Menos 20.000 habitantes), 0=destino no rural   (KWICHON)
+# y los valores del número de migraciones en función de la columna pasada por parámetro
+
+  
+    # Se filtra el dataframe por los años solicitados
+    year = [x for x in range(year_start, year_end+1)]
+    df = df[df['ANOVAR'].isin(year)]
+
+    # Se añade la columna KWICHON según sea el tamaño de municipio
+    df['KWICHON']=[1 if (x==1 or x==2) else 0 for x in df['TAMUALTA']]
+
+    # Se agrupa por la columna Kwichon contando el número de migraciones
+    df_kwichon = df.groupby(by=[col,'KWICHON'], as_index=False).count()
+
+    # Se filtra dejando solo la columna pasada por parámetro, KWICHON y ANOVAR que tienen los valores de número de migraciones
+    df_kwichon = df_kwichon[[col, 'KWICHON','ANOVAR']]
+    df_kwichon.columns=[col,'KWICHON','TOTAL_MIGR']   # se renombra la columna ANOVAR por TOTAL_MIGR
+    # Se pone como indice la columna pasada por parámetro
+    df_kwichon=df_kwichon.set_index(col)
+    # Se recolocan los valores en el dataframe dejando como columnas los valores de KWICHON y los valores del número de migraciones de 'TOTAL_MIGR' 
+    df_kwichon= df_kwichon.pivot(columns='KWICHON',values = 'TOTAL_MIGR')
+    # Se ordenan las columnas
+    df_kwichon = df_kwichon.reindex(columns=[1,0])
+
+
+    return (df_kwichon)
+
+
+
+
+
+
 
 def plot_map_saldo_prov(df_geo,df,year_start, year_end,variable):
 # Función que devuelve unm mapa coroplético por provincias mostrando el saldo de la migración de la población
