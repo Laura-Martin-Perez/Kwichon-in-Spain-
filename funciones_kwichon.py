@@ -85,7 +85,7 @@ def plot_sankey (df, year_start, year_end,plot=True):
          color = [color_node[i].replace('0.8','0.4') for i in source]
          ))])
 
-    fig.update_layout(title_text=f'Movimientos migratorios - De {year_start} a {year_end}')
+    fig.update_layout(title_text=f'De {year_start} a {year_end}')
     if plot:
         fig.show()
     else:
@@ -198,8 +198,6 @@ def tabla_kwichon (df,col, year_start, year_end):
 
 
 
-
-
 def plot_map_saldo_prov(df_geo,df,year_start, year_end,variable):
 # Función que devuelve unm mapa coroplético por provincias mostrando el saldo de la migración de la población
 
@@ -239,14 +237,14 @@ def plot_map_saldo_prov(df_geo,df,year_start, year_end,variable):
                                 'BAJAS',
                                 'SALDO',
                                 'Poblacion',
-                                'Porcentaje'
+                                'RATIO'
                                ],
                         aliases=['Provincia:',
                                  'Altas:',
                                  'Bajas:',
                                  'Saldo:',
                                  f'Población del año {year_start}:',
-                                 'Porcentaje de migración:'
+                                 'Ratio saldo vs población:'
 
                                 ], 
                         localize=True,
@@ -267,6 +265,8 @@ def plot_map_saldo_prov(df_geo,df,year_start, year_end,variable):
 
 
 def order_circle (df, cod_ccaa):
+# Función que devuelve una lista de las provincias que aparecen en el dataframe pasado por parámetro ordenado por comunidades autónomas
+
     
     ccaa_list = list(cod_ccaa['Provincia'])
 
@@ -282,6 +282,9 @@ def order_circle (df, cod_ccaa):
 
 
 def plot_circle (df, order):
+# Función que devuelve un gráfico circular de las migraciones entre provincias del dataframe pasado por parámetro en el orden establecido.
+
+
     matrix = Matrix.parse_fromto_table(df)
     circos = Circos.initialize_from_matrix(
                     matrix,
