@@ -14,7 +14,7 @@ from pycirclize.parser import Matrix
 import funciones_kwichon as f
 
 
-#st.set_option('deprecation.showPyplotGlobalUse', False)
+st.set_option('deprecation.showPyplotGlobalUse', False)
 
 
 st.markdown('''
@@ -83,7 +83,7 @@ if mapa_migr:
 	st.text(f'De {start_prov} a {end_prov}')
 	variable = 'SALDO'
 	mapa_saldo = f.plot_map_saldo_prov(data_geo,data_m,start_prov, end_prov,variable)
-	st_data = st_folium(mapa_saldo, width= 1200, height=1100)
+	st_data = st_folium(mapa_saldo, width= 900, height=600)
 
 
 

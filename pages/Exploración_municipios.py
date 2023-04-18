@@ -80,5 +80,5 @@ if sankey:
 	start_y = st.sidebar.selectbox(label='Desde el año:', options=years)
 	end_y = st.sidebar.selectbox(label="Hasta el año:", options=years)
 	fig = f.plot_sankey(data_tamu,start_y, end_y, False)
-	fig.update_layout(width = 1300, height=800)
+	fig.update_layout(width = 800, height=600)
 	st.plotly_chart(fig)
