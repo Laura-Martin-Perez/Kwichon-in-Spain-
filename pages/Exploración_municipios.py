@@ -38,7 +38,7 @@ total = st.sidebar.checkbox("Evolución del saldo de población por tamaño de m
 if total:
 
 	st.markdown(''' ### Evolución del saldo de población por tamaño de municipio destino (de 2006 a 2021)''')
-	st.write(" Tamaño municipios: :blue[Hasta 10.000 habitantes] , :green[ de 10.001 a 20.000] , :ligthyellow[ de 21.000 a 50.000] , :orange[ de 50.001 a 100.000] , :violet[ más de 100.000] ,  :red[ Capitales de provincia]")
+	st.write("Tamaño municipios :blue[Hasta 10.000 habitantes] , :green[ de 10.001 a 20.000] , de 21.000 a 50.000 , :orange[ de 50.001 a 100.000] , :violet[ más de 100.000] ,  :red[ Capitales de provincia]")
 	sns.set(rc = {'figure.figsize':(20,15)}, style="ticks")
 	plt.style.use("dark_background")
 	sns.lineplot(data=data_saldo, x='Año' , y='Saldo', hue = 'Tamaño_municipio_alta', palette=['blue','green','gold','darkorange','fuchsia','red'], linewidth= 2)
