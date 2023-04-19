@@ -56,27 +56,46 @@ if st.sidebar.checkbox('Predicción con XGBoost'):
 	edad = st.number_input('Dime tu edad', value=0)
 	prov_baja = st.multiselect('Provincia donde vives', list_cod_prov)
 
-	if st.checkbox('Buscar'):	
-
-		if sexo == 'Hombre':
-			s = 1
-		else:
-			s = 6
-
-		persona = pd.DataFrame({'SEXO':s, 'PROVNAC': list_cod_prov.index(prov_nac[0])+1, 'EDAD': edad, 'PROVBAJA':list_cod_prov.index(prov_baja[0])+1,}, index =[0])
 
 
-		resultado = model_pred.predict_proba(persona).ravel()
-		sel =  pd.Series(resultado, index=sel_index).sort_values(ascending=False).head(3).index
-		prov_destino = cod_prov.loc[sel,'NOMBRE']
-		lista_destino= prov_destino.index.tolist()
-		data_pred = df_prediccion[df_prediccion['Cod_prov'].isin(lista_destino)]
+	if (edad < 0 ):
+		st.error('Indica un valor de edad correcto')
+	else:
+		if st.checkbox('Buscar'):	
+
+			if not sexo:
+				st.error('Selecciona una opción de sexo')
 
 
-		st.markdown(''' ### Y te diré a que pueblo puedes ir''')
+			elif sexo == 'Hombre':
+				s = 1
+			else:	
+				s = 6
 
-		mapa= f.plot_map_pueblos (data_pred)
-		st_data = st_folium(mapa, width= 1200, height=1100)
+			if not prov_nac:
+				st.error('Selecciona una opción de Provincia de nacimiento')
+			elif len(prov_nac)>1:
+				st.error('Selecciona solo UNA opción de Provincia de nacimiento')
+			else:
+
+				if not prov_baja:
+					st.error('Selecciona una opción de Provincia donde vives')
+				elif len(prov_baja)>1:
+					st.error('Selecciona solo UNA opción de Provincia donde vives')
+				else:
+
+					persona = pd.DataFrame({'SEXO':s, 'PROVNAC': list_cod_prov.index(prov_nac[0])+1, 'EDAD': edad, 'PROVBAJA':list_cod_prov.index(prov_baja[0])+1,}, index =[0])
+					resultado = model_pred.predict_proba(persona).ravel()
+					sel =  pd.Series(resultado, index=sel_index).sort_values(ascending=False).head(3).index
+					prov_destino = cod_prov.loc[sel,'NOMBRE']
+					lista_destino= prov_destino.index.tolist()					
+					data_pred = df_prediccion[df_prediccion['Cod_prov'].isin(lista_destino)]
+
+
+					st.markdown(''' ### Y te diré a que pueblo puedes ir''')
+
+					mapa= f.plot_map_pueblos (data_pred)
+					st_data = st_folium(mapa, width= 1200, height=1100)
 
 if st.sidebar.checkbox('Fin'):
 	st.image('https://www.caceresimpulsa.com/wp-content/uploads/2021/01/Hervas_Panorama.jpg')
