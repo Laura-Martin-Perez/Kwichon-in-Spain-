@@ -72,19 +72,13 @@ def load_data_ccaa():
 
 cod_ccaa = load_data_ccaa()
 
-@st.cache_data
-def load_data_circ():
-    df = pd.read_pickle('df_circ.pkl')
-    return df
-
-df_circ=load_data_circ()
 
 @st.cache_data
-def load_data_circ_rural_red():
-    df = pd.read_pickle('df_circ_rural_red.pkl')
+def load_data_circ_rural():
+    df = pd.read_pickle('df_circ_rural.pkl')
     return df
 
-df_circ_rural_red=load_data_circ_rural_red()
+df_circ_rural=load_data_circ_rural()
 
 
 
@@ -111,57 +105,43 @@ if mapa_migr:
 
 
 
-circular = st.sidebar.checkbox("Gráfico circular de migraciones entre provincias")
+circular = st.sidebar.checkbox("Gráfico circular de migraciones desde y hacia municipios rurales entre provincias")
 
 if circular:
 
 	st.markdown(''' ### Gráfico circular ''')
 
 	year = [y for y in range(start_prov,end_prov+1)]
-	df_circ=df_circ[df_circ['ANOVAR'].isin(year)]
-
-	st.markdown(''' #### Migraciones entre provincias: ''')
-	st.text(f'De {start_prov} a {end_prov}')
-
-	df_circ = df_circ.groupby(by=['PROVBAJA','PROVALTA'], as_index=False).count()
-	col_list = ['PROVBAJA', 'PROVALTA']
-	df_circ_name = f.replace_col_data(df_circ, col_list, dict_cod_prov)
-	order = f.order_circle(df_circ_name, cod_ccaa)
-
-	fig=f.plot_circle (df_circ_name, order)
-	st.pyplot(fig)
-
-	st.markdown(''' #### Migraciones solo entre otras provincias: ''')
-	st.text(f'De {start_prov} a {end_prov}')
-	
-	df_circ_reducido = df_circ_name[~(df_circ_name['PROVBAJA']==df_circ_name['PROVALTA'])]
-	limite_migr = abs(df_circ_reducido['ANOVAR'].max())*10/100
-	df_circ_reducido = df_circ_reducido[abs(df_circ_reducido['ANOVAR'])>limite_migr]
-	order_reducido = f.order_circle(df_circ_reducido, cod_ccaa)
-
-	fig_reducido=f.plot_circle (df_circ_reducido, order_reducido)
-	st.pyplot(fig_reducido)
-
-
-
-	df_circ_rural=migr_rural[['PROVALTA','ANOVAR','PROVBAJA']]
-
-	year = [y for y in range(start_y,end_y+1)]
 	df_circ_rural=df_circ_rural[df_circ_rural['ANOVAR'].isin(year)]
+
+	st.markdown(''' #### Migraciones rurales entre provincias: ''')
+	st.text(f'De {start_prov} a {end_prov}')
+
+
 	df_circ_rural = df_circ_rural.groupby(by=['PROVBAJA','PROVALTA'], as_index=False).count()
 	col_list = ['PROVBAJA', 'PROVALTA']
 	df_circ_rural_name = f.replace_col_data(df_circ_rural, col_list, dict_cod_prov)
+	order = f.order_circle(df_circ_rural_name, cod_ccaa)
+
+	fig=f.plot_circle (df_circ_rural_name, order)
+	st.pyplot(fig)
+
+	st.markdown(''' #### Migraciones rurales solo entre otras provincias: ''')
+	st.text(f'De {start_prov} a {end_prov}')
+	
 
 	# Se filtra la tabla eliminando migraciones a la misma provincia y las migraciones menores al 3% del valor máximo
 	df_circ_r_reducido = df_circ_rural_name[~(df_circ_rural_name['PROVBAJA']==df_circ_rural_name['PROVALTA'])]
-	limite_migr = abs(df_circ_r_reducido['ANOVAR'].max())*3/100
+	# se eliminan los movimientos inferiores al 5% de máximo para visualizar mejor los datos.
+	limite_migr = abs(df_circ_r_reducido['ANOVAR'].max())*5/100   # se eliminan los movimientos inferiores al 5% de máximo para visualizar mejor los datos.
 	df_circ_r_reducido = df_circ_r_reducido[abs(df_circ_r_reducido['ANOVAR'])>limite_migr]
 
 	order_r_reducido = f.order_circle(df_circ_r_reducido, cod_ccaa)
 
-	f.plot_circle (df_circ_r_reducido,order_r_reducido)
+	fig_rural_reducido = f.plot_circle (df_circ_r_reducido,order_r_reducido)
+	st.pyplot(fig_rural_reducido)
 
-       
+
 
 
 		
