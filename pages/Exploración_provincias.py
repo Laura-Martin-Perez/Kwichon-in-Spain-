@@ -32,12 +32,19 @@ def load_data_geo_prov():
 	return(df)
  
 @st.cache_data
-def load_data_mapa():
+def load_data_saldo_prov():
 	df = pd.read_pickle('df_saldo_prov.pkl')
 	return (df)
 
-data_geo= load_data_geo_prov()
-data_m = load_data_mapa()
+df_geo= load_data_geo_prov()
+df_saldo_prov = load_data_saldo_prov()
+
+@st.cache_data
+def load_data_saldo_rural():
+    df = pd.read_pickle('df_saldo_rural.pkl')
+    return df
+
+df_saldo_rural=load_data_saldo_rural()
 
 
 
@@ -47,6 +54,7 @@ def load_data_saldo():
     return df
 
 df_saldo=load_data_saldo()
+
 
 
 @st.cache_data
@@ -71,6 +79,13 @@ def load_data_circ():
 
 df_circ=load_data_circ()
 
+@st.cache_data
+def load_data_circ_rural_red():
+    df = pd.read_pickle('df_circ_rural_red.pkl')
+    return df
+
+df_circ_rural_red=load_data_circ_rural_red()
+
 
 
 dict_cod_prov = dict(zip(cod_prov['CPRO'], cod_prov['NOMBRE']))
@@ -82,8 +97,16 @@ if mapa_migr:
 	st.markdown(''' #### Mapa de migraciones entre provincias: ''')
 	st.text(f'De {start_prov} a {end_prov}')
 	variable = 'SALDO'
-	mapa_saldo = f.plot_map_saldo_prov(data_geo,data_m,start_prov, end_prov,variable)
+	mapa_saldo = f.plot_map_saldo_prov(df_geo,df_saldo_prov,start_prov, end_prov,variable)
 	st_data = st_folium(mapa_saldo, width= 900, height=600)
+
+	st.markdown(''' #### Mapa de migraciones a zonas rurales entre provincias: ''')
+	st.text(f'De {start_prov} a {end_prov}')
+	variable = 'SALDO'
+	mapa_saldo_rural = f.plot_map_saldo_prov(df_geo,df_saldo_rural,start_prov, end_prov,variable)
+	st_data = st_folium(mapa_saldo_rural, width= 900, height=600)
+
+
 
 
 
@@ -118,6 +141,26 @@ if circular:
 
 	fig_reducido=f.plot_circle (df_circ_reducido, order_reducido)
 	st.pyplot(fig_reducido)
+
+
+
+	df_circ_rural=migr_rural[['PROVALTA','ANOVAR','PROVBAJA']]
+
+	year = [y for y in range(start_y,end_y+1)]
+	df_circ_rural=df_circ_rural[df_circ_rural['ANOVAR'].isin(year)]
+	df_circ_rural = df_circ_rural.groupby(by=['PROVBAJA','PROVALTA'], as_index=False).count()
+	col_list = ['PROVBAJA', 'PROVALTA']
+	df_circ_rural_name = f.replace_col_data(df_circ_rural, col_list, dict_cod_prov)
+
+	# Se filtra la tabla eliminando migraciones a la misma provincia y las migraciones menores al 3% del valor máximo
+	df_circ_r_reducido = df_circ_rural_name[~(df_circ_rural_name['PROVBAJA']==df_circ_rural_name['PROVALTA'])]
+	limite_migr = abs(df_circ_r_reducido['ANOVAR'].max())*3/100
+	df_circ_r_reducido = df_circ_r_reducido[abs(df_circ_r_reducido['ANOVAR'])>limite_migr]
+
+	order_r_reducido = f.order_circle(df_circ_r_reducido, cod_ccaa)
+
+	f.plot_circle (df_circ_r_reducido,order_r_reducido)
+
        
 
 

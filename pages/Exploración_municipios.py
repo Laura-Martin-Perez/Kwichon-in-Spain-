@@ -27,24 +27,18 @@ def load_data_tamu():
 data_tamu = load_data_tamu()
 
 @st.cache_data
-def load_data_edad():
-    df = pd.read_pickle('df_edad.pkl')
-    return df
-
-data_edad = load_data_edad()
-
-
-@st.cache_data
 def load_data_edad_ratio():
     df = pd.read_pickle('df_edad_ratio.pkl')
     return df
 
 data_edad_ratio = load_data_edad_ratio()
 
+
 total = st.sidebar.checkbox("Evolución del saldo de población por tamaño de municipio destino")
 if total:
 
 	st.markdown(''' ### Evolución del saldo de población por tamaño de municipio destino (de 2006 a 2021)''')
+	st.write(" Tamaño municipios: :blue[Hasta 10.000 habitantes] , :green[ de 10.001 a 20.000] , :ligthyellow[ de 21.000 a 50.000] , :orange[ de 50.001 a 100.000] , :violet[ más de 100.000] ,  :red[ Capitales de provincia]")
 	sns.set(rc = {'figure.figsize':(20,15)}, style="ticks")
 	plt.style.use("dark_background")
 	sns.lineplot(data=data_saldo, x='Año' , y='Saldo', hue = 'Tamaño_municipio_alta', palette=['blue','green','gold','darkorange','fuchsia','red'], linewidth= 2)
@@ -53,20 +47,17 @@ if total:
         	            'Municipio no capital de 20.001 a 50.000', 
             	        'Municipio no capital de 50.001 a 100.000',      
                 	    'Municipio no capital de más de 100.000',        
-                    	'Municipio capital de provincia'	
+                    	'Municipio capital de provincia'	          
 	                    ]);
 	st.pyplot(plt.gcf()) 
+
 
 
 
 edad = st.sidebar.checkbox("Migraciones por grupos de edad")
 if edad:
  
-	st.markdown( ''' ### Migraciones por grupos de edad  (de 2006 a 2021 )''')
-	data_edad.plot(title='Migraciones por grupos de edad', kind='barh', stacked=True, color=['#128328', '#9b9b9b'], figsize = (15,8),legend='reverse');
-	st.pyplot(plt.gcf())
-
-	st.markdown( ''' ### Ratio de migraciones por grupos de edad (de 2006 a 2021) ''')
+	st.markdown( ''' ### Ratio de migraciones por grupos de edad (de 2020 a 2021) ''')
 	data_edad_ratio.plot(title='Ratio de migraciones por grupos de edad',kind='barh', stacked=True, color=['#128328', '#9b9b9b'], figsize = (15,8),legend='reverse');
 	st.pyplot(plt.gcf())
 

@@ -38,6 +38,10 @@ def migrations_tables (year_start, year_end):
 
 def plot_sankey (df, year_start, year_end,plot=True):
 # Muestra gráfico Sankey pasando el dataframe y los años a visualizar
+# Parámetros: df: dataframe
+#             year_start: año de inicio
+#             year_end: año de fin
+#             plot = True:  Se puede elegir si se quiere mostrar al llamar la función o no
 
     year = [y for y in range(year_start,year_end+1)]
     df = df[df['ANOVAR'].isin(year)]
@@ -95,6 +99,9 @@ def plot_sankey (df, year_start, year_end,plot=True):
 def tabla_saldo_tamu (df, year_start, year_end):
 # Función que genera una tabla con el año, el tamaño de municipio de alta y el saldo de migraciones
 # Se le pasa como parámetros la tabla con los tamaños de municipio de alta y baja y los años del periodo a analizar.
+# Parámetros: df: dataframe
+#             year_start: año de inicio
+#             year_end: año de fin
 
     # se filtran por los años solicitados
     year = [y for y in range(year_start,year_end+1)]
@@ -122,6 +129,11 @@ def tabla_saldo_tamu (df, year_start, year_end):
 def tabla_saldo_prov (df, year_start, year_end, df_prov, df_pob):
 # Función que devuelve un dataframe donde se agrupa por provincias y se muestra el total de altas, bajas y el saldo. Se añade también el nombre de la provincia 
 # y el polígono para poder mostrar en un mapa 
+# Parámetros: df: dataframe
+#             year_start: año de inicio
+#             year_end: año de fin
+#             df_prov: dataframe con los valores de geometría de las provincias
+#             df_pob: datafrem con los valores de la población por provincia.
 
     year = [x for x in range(year_start, year_end+1)]
   
@@ -154,10 +166,10 @@ def tabla_saldo_prov (df, year_start, year_end, df_prov, df_pob):
 
     # Se añade el dataframe de provincias con nombres y datos de geometria para el mapa
     df_prov['id']= df_prov['id'].apply(int)
-    df_final = df_prov.merge(df_saldo_prov, left_on="id", right_on="PROVSALDO", how="outer") 
+    df_final = df_prov.merge(df_saldo_prov, left_on="id", right_on="PROVSALDO", how="inner") 
 
     # Se añade la población por provincia y año
-    df_final = df_pob.merge(df_final, left_on="Cod_prov", right_on="PROVSALDO", how="outer") 
+    df_final = df_pob.merge(df_final, left_on="Cod_prov", right_on="PROVSALDO", how="inner") 
 
     df_final.drop(columns=['Provincias' ,'Cod_prov','Periodo'], inplace=True)
         
@@ -169,6 +181,10 @@ def tabla_kwichon (df,col, year_start, year_end):
 # Función que devuelve un dataframe donde se filtra por el periodo de años pasado por parámetro, se añaden las columnas: 
 # 1=destino rural (tamaño municipio 1,2 - Menos 20.000 habitantes), 0=destino no rural   (KWICHON)
 # y los valores del número de migraciones en función de la columna pasada por parámetro
+# Parámetros: df: dataframe
+#             col: columna que determina los valores de las migraciones
+#             year_start: año de inicio
+#             year_end: año de fin
 
   
     # Se filtra el dataframe por los años solicitados
@@ -200,6 +216,11 @@ def tabla_kwichon (df,col, year_start, year_end):
 
 def plot_map_saldo_prov(df_geo,df,year_start, year_end,variable):
 # Función que devuelve unm mapa coroplético por provincias mostrando el saldo de la migración de la población
+# Parámetros: df_geo: dataframe con los valores de geometría
+#             df: dataframe con los valores del saldo / ratio de la población por provincias.
+#             year_start: año de inicio
+#             year_end: año de fin
+#             variable: variable de los datos que se quieren mostrar por colores en el mapa
 
     # se convierte el df en un geodataframe
     df = gpd.GeoDataFrame(df, geometry="geometry")
@@ -219,7 +240,7 @@ def plot_map_saldo_prov(df_geo,df,year_start, year_end,variable):
                 geo_data=geo,
                 key_on='feature.id',
                 columns=['PROVSALDO', variable], 
-                fill_color ='Spectral', nan_fill_color='White', 
+                fill_color ='RdBu', nan_fill_color='White', 
                 threshold_scale = custom_scale,
                 line_color='grey', line_weight=0.1,
                 legend_name=f'Movimientos migratorios entre {year_start} y {year_end} ({variable})',
@@ -266,6 +287,8 @@ def plot_map_saldo_prov(df_geo,df,year_start, year_end,variable):
 
 def order_circle (df, cod_ccaa):
 # Función que devuelve una lista de las provincias que aparecen en el dataframe pasado por parámetro ordenado por comunidades autónomas
+# Parámetros: df: dataframe
+#             cod_ccaa: dataframe con los códigos de comunidades autónomoas y provincias
 
     
     ccaa_list = list(cod_ccaa['Provincia'])
@@ -283,6 +306,8 @@ def order_circle (df, cod_ccaa):
 
 def plot_circle (df, order):
 # Función que devuelve un gráfico circular de las migraciones entre provincias del dataframe pasado por parámetro en el orden establecido.
+# Parámetros: df: dataframe
+#             order: lista con el orden de las provincias para mostrar en el gráfico
 
 
     matrix = Matrix.parse_fromto_table(df)
@@ -299,6 +324,30 @@ def plot_circle (df, order):
     fig = circos.plotfig()
  
 
+def plot_map_pueblos (df):
+# Función que devuelve un mapa indicando los pueblos indicados en la tabla df pasada por parámetro.
+# Parámetros: df: dataframe a mostrar en el mapa datos de latitud-longitud
+
+    mapa = folium.Map(location=[40,-4], zoom_start=6, width=700, height=500, control_scale=True, tiles='CartoDB Positron') 
+    geopath = df.geometry.to_json()
+    pueblos = folium.features.GeoJson(geopath)
+    mapa.add_child(pueblos)
+    # Se añade popup con la información y enlace a la web de los pueblos
+    for i in range(0,len(df)):
+        html=f"""
+            <h3> {df.iloc[i]['Municipio']}<h3>
+            <h4> {df.iloc[i]['Provincia']}</h4>
+            <p> <a href="{df.iloc[i]['Link_web']}" target="_blank">{df.iloc[i]['Link_web']} </a> </p>
+            """
+    
+        iframe = folium.IFrame(html=html, width=400, height=150)
+        popup = folium.Popup(iframe, max_width=2650)
+        folium.Marker(
+            location=[df.iloc[i]['lat'], df.iloc[i]['lng']],
+            popup=popup
+        ).add_to(mapa)
+
+    return mapa
 
 
 
