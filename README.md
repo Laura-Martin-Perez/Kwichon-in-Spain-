@@ -85,7 +85,7 @@ xgboost.XGBClassifier  1.7.4
 streamlit 1.20.0  
 streamlit-folium 0.11.1  
 
-funciones.kwichon - librería de funciones para este proyecto
+funciones.kwichon.py - librería de funciones para este proyecto
 
 
 ## Fuentes de datos:
