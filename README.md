@@ -75,12 +75,13 @@ Para futuros estudios se puede observar si esto puede ser motivado por la mejora
 
 ## Organización
 
-4 notebooks de Jupyter, fichero de funciones para el proyecto (funciones_kwichon.py)
-Carpeta datos:  Datos descargados de www.ine.es
-Carpeta csv.files: Ficheros con las tablas generadas del notebook Kwichon_Spain_Datos
-Carpeta geojon_files: Ficheros geojson descargados para visualizar los mapas
-Carpeta xgb_filles: Ficheros generados de los entrenamientos del modelo XGBClassifier
-Carpeta kwichon_streamlit: Ficheros para la aplicación Kwichon para la presentación del proyecto.
+4 notebooks de Jupyter, fichero de funciones para el proyecto (funciones_kwichon.py)  
+Carpeta datos:  Datos descargados de www.ine.es  
+Carpeta csv.files: Ficheros con las tablas generadas del notebook Kwichon_Spain_Datos  
+Carpeta geojon_files: Ficheros geojson descargados para visualizar los mapas  
+Carpeta xgb_filles: Ficheros generados de los entrenamientos del modelo XGBClassifier  
+Carpeta kwichon_streamlit: Ficheros para la aplicación Kwichon para la presentación del proyecto.  
+
 
 ## Librerías utilizadas:
 pandas 1.4.2  
