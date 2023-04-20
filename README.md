@@ -2,6 +2,7 @@
 Análisis de los movimientos migratorios dentro de España. ¿Se están volviendo a repoblar las zonas rurales?
 
 ![image](https://user-images.githubusercontent.com/113755985/229598369-47405110-7455-433a-afe0-997b46a52b91.png = 100x100)
+<img src="https://user-images.githubusercontent.com/113755985/229598369-47405110-7455-433a-afe0-997b46a52b91.png" width="100" height="100">
 
 
 En progreso
