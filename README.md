@@ -70,12 +70,12 @@ Para futuros estudios se puede observar si esto puede ser motivado por la mejora
 
 ### Librerías utilizadas:
 pandas 1.4.2
-matplotlib.pyplot  3.7.1
+matplotlib.pyplot 3.7.1
 seaborn 0.11.2
 geopandas 0.12.2
 folium 0.14.0  /  folium.pluggins  /  folium.features.GeoJsonTooltip
 pycirclize 0.3.0  / pycirclize.Circos   /  pycirclize.parser.Matrix
-sklearn.model_selection. train_test_split    
+sklearn.model_selection. train_test_split
 sklearn.metrics.classification_report
 sklearn.preprocessing.OrdinalEncoder
 xgboost.XGBClassifier  1.7.4
