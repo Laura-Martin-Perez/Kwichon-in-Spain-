@@ -1,7 +1,7 @@
 # Kwichon (regreso a lo rural) en España
 Análisis de los movimientos migratorios dentro de España. ¿Se están volviendo a repoblar las zonas rurales?
 
-<img src="https://user-images.githubusercontent.com/113755985/229598369-47405110-7455-433a-afe0-997b46a52b91.png" width="500" height="500">
+<img src="https://user-images.githubusercontent.com/113755985/229598369-47405110-7455-433a-afe0-997b46a52b91.png" width="500" height= "450">
 
 
 En progreso
