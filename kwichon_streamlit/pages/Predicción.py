@@ -65,6 +65,10 @@ if st.sidebar.checkbox('Predicción con XGBoost'):
 
 			if not sexo:
 				st.error('Selecciona una opción de sexo')
+
+			elif len(sexo)>1:
+				st.error('Selecciona solo UNA opción de Sexo')
+
 			else:
 				if not prov_nac:
 					st.error('Selecciona una opción de Provincia de nacimiento')
