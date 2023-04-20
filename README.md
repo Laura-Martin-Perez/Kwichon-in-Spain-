@@ -73,6 +73,15 @@ Se observa una descentralización de las principales ciudades como Madrid y Barc
 Para futuros estudios se puede observar si esto puede ser motivado por la mejora de comunicaciones con mejores infraestructuras de carreteras y transporte, o bien debido al aumento de empresas que ofrecen teletrabajo.
 
 
+## Organización
+
+4 notebooks de Jupyter, fichero de funciones para el proyecto (funciones_kwichon.py)
+Carpeta datos:  Datos descargados de www.ine.es
+Carpeta csv.files: Ficheros con las tablas generadas del notebook Kwichon_Spain_Datos
+Carpeta geojon_files: Ficheros geojson descargados para visualizar los mapas
+Carpeta xgb_filles: Ficheros generados de los entrenamientos del modelo XGBClassifier
+Carpeta kwichon_streamlit: Ficheros para la aplicación Kwichon para la presentación del proyecto.
+
 ## Librerías utilizadas:
 pandas 1.4.2  
 matplotlib.pyplot 3.7.1  
