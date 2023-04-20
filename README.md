@@ -8,38 +8,38 @@ En Corea del Sur, la población está migrando a zonas rurales durante los últi
 
 A raíz de la pandemia, es un hecho que ha habido cambio sociológico en nuestro comportamiento y este fenómeno se ha comenzado a dar a nivel mundial.
 
-En este proyecto quiero analizar si en España también está sucediendo durante estos últimos años una vuelta a las poblaciones rurales en España.
+En este proyecto quiero analizar si en España también está sucediendo durante estos últimos años una vuelta a las poblaciones rurales.
 Este fenómeno también es muy positivo para repoblar las zonas rurales que durante los últimos años se han ido quedando vacías por la migración a grandes ciudades y capitales de provincia.
 
 
 ## ANÁLISIS
-He descargado los ficheros de datos de los movimientos de población del año 2006 al 2021 del INE (Instituto Nacional de Estadística), así como los datos necesarios para obtener la relación entre códigos y nombres de municipios, provincias y comunidades autónomas
+He descargado los ficheros de datos de los movimientos de población del año 2006 al 2021 del INE (Instituto Nacional de Estadística), así como los datos necesarios para obtener la relación entre códigos y nombres de municipios, provincias y comunidades autónomas.
 
 Durante el análisis he tenido en cuenta como zonas rurales a los municipios con menos de 20.000 habitantes.
 
-Para realizar el estudio he preparado 4 notebooks y una librería de funciones: funciones_kwichon.py para utilizar en este proyecto
+Para realizar el estudio he preparado 4 notebooks y una librería de funciones (funciones_kwichon.py) para utilizar en este proyecto.
 
 - Kwichon_Spain_Datos.ipynb: Manipulación de datos y generación de 4 ficheros csv para poder utilizar en los siguientes notebooks y futuros estudios.
   * migraciones_2006_2021.csv: total de migraciones, casi 41 millones de registros. Cada registro es el movimiento de una persona.
   * solo_migr_2006_2021.csv: se eliminan del archivo anterior las migraciones de personas que se han ido a vivir al extranjero y las que han venido del extranjero. 
                              Casi 26 millones de registros.
-  * cod_muni.csv: Relación de códigos de municipio y nombre
-  * cod_prov.csv: Relación de códigos de provincia y nombre
+  * cod_muni.csv: Relación de códigos de municipio y nombre.
+  * cod_prov.csv: Relación de códigos de provincia y nombre.
   * cod_ccaa.csv: Relación de códigos de comunidades autónomas y nombre. Y también códigos de provincia y nombre que le pertenece a cada una.
 
 - Kwichon_Spain_Visualizaciones_municipios.ipynb: Preparación de datos y visualización de migraciones teniendo en cuenta los tamaños del municipio.
-  * Lineplot del número de migraciones por año y tamaño de municipio
-  * Gráfico Sankey de migraciones entre tamaño de municipios
+  * Lineplot del número de migraciones por año y tamaño de municipio.
+  * Gráfico Sankey de migraciones entre tamaño de municipios.
   * Gráfico de barras acumulado de migraciones distinguiendo entre las realizadas a zonas rurales o no rurales:
-      Ratio del total de migraciones por por sexo
-      Migraciones por grupos de edad
-      Ratio del total de migraciones por por sexo
+      Ratio del total de migraciones por por sexo.
+      Migraciones por grupos de edad.
+      Ratio del total de migraciones por por sexo.
 
 - Kwichon_Spain_Visualizaciones_provincias.ipynb: Preparación de datos y visualización de migraciones teniendo en cuenta las migraciones entre provincias.
-  * Mapas cloropéticos:
-      Saldo de migraciones entre provincias
+  * Mapas coropléticos:
+      Saldo de migraciones entre provincias.
       Saldo de migraciones entre provincias teniendo en cuenta el ratio de migraciones por la población en el año de inicio de la exploración.
-      Saldo de migraciones rurales entre provincias
+      Saldo de migraciones rurales entre provincias.
       Saldo de migraciones rurales entre provincias teniendo en cuenta el ratio de migraciones por la población en el año de inicio de la exploración.  
    * Gráficos circulares:
       Total de migraciones por provincia
@@ -48,7 +48,7 @@ Para realizar el estudio he preparado 4 notebooks y una librería de funciones: 
       Solo migraciones a zonas rurales entre diferentes provincias y en número superior al 5% del valor máximo
 
 - Kwichon_Spain_Prediccion.ipynb: He entrenado  los datos de las migraciones entre los últimos años (2020 y 2021) con el modelo XGBoost(XGBClassifier) para obtener, a partir de las variables: sexo, edad, provincia de nacimiento y provincia de baja, la probabilidad (predictproba) del valor de la variable provincia de alta.
-  Con este modelo propongo un ‘recomendador de pueblos’ en la aplicación Streamlit Kwichon.py.
+  Con este modelo propongo un ‘recomendador de pueblos’ en la aplicación Kwichon.py (con Streamlit).
   
   De las webs:  www.venteaviviraunpueblo.com y www.volveralpueblo.com, he extraído los pueblos mostrados y que ofrecen información para aquellas personas que quieran   
   explorar la posibilidad de ir a vivir a un pueblo.
@@ -57,7 +57,9 @@ Para realizar el estudio he preparado 4 notebooks y una librería de funciones: 
 
 
 Por último, he preparado con Streamlit una aplicación donde muestro algunos gráficos resultado del estudio pudiendo escoger el rango de años a visualizar y un ‘recomendador de pueblos’ para ayudar a explorar a que pueblo nos podemos ir a vivir.
-Ficheros streamlit: Kwichon.py, y en el directorio pages: Exploración_municipios.py, Exploración_provincias.py, Predicción.py
+ - Ficheros:
+   * Kwichon.py
+   * En el directorio pages: Exploración_municipios.py, Exploración_provincias.py y Predicción.py
 
 
 ## CONCLUSIONES
