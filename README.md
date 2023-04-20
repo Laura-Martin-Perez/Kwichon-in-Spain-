@@ -11,6 +11,7 @@ A raíz de la pandemia, es un hecho que ha habido cambio sociológico en nuestro
 En este proyecto quiero analizar si en España también está sucediendo durante estos últimos años una vuelta a las poblaciones rurales en España.
 Este fenómeno también es muy positivo para repoblar las zonas rurales que durante los últimos años se han ido quedando vacías por la migración a grandes ciudades y capitales de provincia.
 
+
 ## ANÁLISIS
 He descargado los ficheros de datos de los movimientos de población del año 2006 al 2021 del INE (Instituto Nacional de Estadística), así como los datos necesarios para obtener la relación entre códigos y nombres de municipios, provincias y comunidades autónomas
 
@@ -55,9 +56,11 @@ Para realizar el estudio he preparado 4 notebooks y una librería de funciones: 
   Se muestran en un mapa los pueblos correspondientes al resultado de la predicción de las 3 provincias de destino que el modelo indica con la probabilidad más alta.
 
 
-Por último, he preparado con Streamlit una aplicación: Kwichon.py se muestran algunos gráficos resultado del estudio y este ‘recomendador de pueblos’ para ayudar a explorar a que pueblo nos podemos ir a vivir.
+Por último, he preparado con Streamlit una aplicación donde muestro algunos gráficos resultado del estudio pudiendo escoger el rango de años a visualizar y un ‘recomendador de pueblos’ para ayudar a explorar a que pueblo nos podemos ir a vivir.
+Ficheros streamlit: Kwichon.py, y en el directorio pages: Exploración_municipios.py, Exploración_provincias.py, Predicción.py
 
-## Conclusiones
+
+## CONCLUSIONES
 
 Los movimientos a zonas rurales son un 38% respecto al total de migraciones.
 
@@ -68,7 +71,7 @@ Se observa una descentralización de las principales ciudades como Madrid y Barc
 Para futuros estudios se puede observar si esto puede ser motivado por la mejora de comunicaciones con mejores infraestructuras de carreteras y transporte, o bien debido al aumento de empresas que ofrecen teletrabajo.
 
 
-### Librerías utilizadas:
+## Librerías utilizadas:
 pandas 1.4.2  
 matplotlib.pyplot 3.7.1  
 seaborn 0.11.2  
@@ -82,10 +85,10 @@ xgboost.XGBClassifier  1.7.4
 streamlit 1.20.0  
 streamlit-folium 0.11.1  
 
-
 funciones.kwichon - librería de funciones para este proyecto
 
-### Fuentes de datos:
+
+## Fuentes de datos:
 
 Microdatos de la Estadística de variaciones residenciales de la web del INE (Instituto Nacional de Estadística).
 https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736177013&menu=resultados&secc=1254736195469&idp=1254734710990#!tabs-1254736195469
