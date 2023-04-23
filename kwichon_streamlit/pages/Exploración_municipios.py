@@ -41,7 +41,7 @@ if total:
 	st.write("Tamaño municipios :blue[Hasta 10.000 habitantes] , :green[ de 10.001 a 20.000] , de 21.000 a 50.000 , :orange[ de 50.001 a 100.000] , :violet[ más de 100.000] ,  :red[ Capitales de provincia]")
 	sns.set(rc = {'figure.figsize':(20,15)}, style="ticks")
 	plt.style.use("dark_background")
-	sns.lineplot(data=data_saldo, x='Año' , y='Saldo', hue = 'Tamaño_municipio_alta', palette=['blue','green','gold','darkorange','fuchsia','red'], linewidth= 2)
+	sns.lineplot(data=data_saldo, x='Año' , y='Saldo', hue = 'Tamaño_municipio_alta', palette=['dodgerblue','green','gold','darkorange','fuchsia','red'], linewidth= 2)
 	plt.legend(labels=[ 'Hasta 10.000 habitantes',
     	                'Municipio no capital de 10.001 a 20.000',
         	            'Municipio no capital de 20.001 a 50.000', 

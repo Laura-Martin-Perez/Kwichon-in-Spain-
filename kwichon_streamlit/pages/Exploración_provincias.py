@@ -90,12 +90,14 @@ if mapa_migr:
 	if start_prov <= end_prov:
 		st.markdown(''' #### Mapa de migraciones entre provincias: ''')
 		st.text(f'De {start_prov} a {end_prov}')
+		st.write(":red[Saldo negativo], :blue[Saldo positivo]")
 		variable = 'SALDO'
 		mapa_saldo = f.plot_map_saldo_prov(df_geo,df_saldo_prov,start_prov, end_prov,variable)
 		st_data = st_folium(mapa_saldo, width= 900, height=600)
 
 		st.markdown(''' #### Mapa de migraciones a zonas rurales entre provincias: ''')
 		st.text(f'De {start_prov} a {end_prov}')
+		st.write(":red[Saldo negativo], :blue[Saldo positivo]")
 		variable = 'SALDO'
 		mapa_saldo_rural = f.plot_map_saldo_prov(df_geo,df_saldo_rural,start_prov, end_prov,variable)
 		st_data = st_folium(mapa_saldo_rural, width= 900, height=600)

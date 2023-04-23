@@ -303,7 +303,6 @@ def order_circle (df, cod_ccaa):
     return order
 
 
-
 def plot_circle (df, order):
 # Función que devuelve un gráfico circular de las migraciones entre provincias del dataframe pasado por parámetro en el orden establecido.
 # Parámetros: df: dataframe
@@ -316,7 +315,7 @@ def plot_circle (df, order):
                     space=1,
                     r_lim=(93, 100),
                     cmap="gist_rainbow",
-                    label_kws=dict(size=8, r=102, color="grey", orientation='vertical'),
+                    label_kws=dict(size=12, r=102, color="grey", orientation='vertical'),
                     link_kws=dict(direction=1, ec="#1f1f1f",lw=1), #lw=0.5),
                     order = order
                     )
