@@ -13,4 +13,8 @@ streamlit-folium 0.11.1
 
 funciones.kwichon - librería de funciones para este proyecto
 
-Descargar carpeta 'datos' que contiene archivos con las migraciones de: https://drive.google.com/drive/folders/1QGW4sFkmz6wWSkeby4oPHDzKO6STyRiB?usp=sharing
+Descargar la carpeta 'datos' que contiene archivos con las migraciones de: https://drive.google.com/drive/folders/1QGW4sFkmz6wWSkeby4oPHDzKO6STyRiB?usp=sharing
+
+Si no se ejecuta el código, descargar la carpeta 'csv_files' que contiene los archivos .csv que se generan para utilizar en los notebooks de: https://drive.google.com/drive/folders/1sncg5KzVbL3fYQish_0YwmA5XnlicorQ?usp=sharing
+
+Descargar los archivos .pkl de: https://drive.google.com/drive/folders/1qsFj6ED1pz5MApdSHk4E5wQm3pkSd06C?usp=sharing para ejecutar la aplicación de streamlit.
