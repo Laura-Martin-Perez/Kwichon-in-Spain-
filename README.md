@@ -86,7 +86,7 @@ Carpeta datos:  Datos descargados de www.ine.es
 Carpeta csv.files: Ficheros con las tablas generadas del notebook Kwichon_Spain_Datos  
 Carpeta geojon_files: Ficheros geojson descargados para visualizar los mapas  
 Carpeta xgb_filles: Ficheros generados de los entrenamientos del modelo XGBClassifier  
-Carpeta kwichon_streamlit: Ficheros para la aplicación Kwichon para la presentación del proyecto.  
+Carpeta kwichon_streamlit: Ficheros para la aplicación Kwichon para la presentación del proyecto. IMPORTANTE: Descargar los ficheros .pkl de este enlace: https://drive.google.com/drive/folders/1qsFj6ED1pz5MApdSHk4E5wQm3pkSd06C?usp=sharing en esta carpeta.
 
 
 ## Librerías utilizadas:
