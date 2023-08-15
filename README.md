@@ -70,7 +70,7 @@ Por último, he preparado con Streamlit una aplicación donde muestro algunos gr
 
 ## CONCLUSIONES
 
-Los movimientos a zonas rurales son un 38% respecto al total de migraciones.
+Los movimientos a zonas rurales representan un 38% respecto al total de migraciones.
 
 La mayoría se realizan dentro de la misma provincia tanto a nivel global como entre municipios rurales (menos de 20.000 habitantes.
 
