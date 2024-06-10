@@ -2,7 +2,7 @@
 Análisis de los movimientos migratorios dentro de España. ¿Se están volviendo a repoblar las zonas rurales?
 
 <img src="https://user-images.githubusercontent.com/113755985/229598369-47405110-7455-433a-afe0-997b46a52b91.png" width="500" height= "350
-"">
+">
 
 ## INTRODUCCIÓN
 En Corea del Sur, la población está migrando a zonas rurales durante los últimos años (a raíz de la pandemia) y a este fenómeno lo llaman KWICHON. Esta palabra significa literalmente 'vuelta a lo rural').
