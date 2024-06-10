@@ -18,7 +18,7 @@ He descargado los ficheros de datos de los movimientos de población del año 20
 
 Durante el análisis he tenido en cuenta como zonas rurales a los municipios con menos de 20.000 habitantes.
 
-Para realizar el estudio he preparado 4 notebooks y una librería de funciones (funciones_kwichon.py) para utilizar en este proyecto.
+Para realizar el estudio he preparado 4 notebooks y una librería de funciones (funciones_kwichon.py) para utilizar en este proyecto. Muestro algunos ejemplos de las visualizaciones realizadas.
 
 - Kwichon_Spain_Datos.ipynb:
      Descargar la carpeta datos que contiene los archivos con las migraciones de: https://drive.google.com/drive/folders/1QGW4sFkmz6wWSkeby4oPHDzKO6STyRiB?usp=sharing
@@ -28,8 +28,7 @@ Para realizar el estudio he preparado 4 notebooks y una librería de funciones (
   Se puede descargar la carpeta aquí: https://drive.google.com/drive/folders/1sncg5KzVbL3fYQish_0YwmA5XnlicorQ?usp=sharing
 
   * migraciones_2006_2021.csv: total de migraciones, casi 41 millones de registros. Cada registro es el movimiento de una persona.
-  * solo_migr_2006_2021.csv: se eliminan del archivo anterior las migraciones de personas que se han ido a vivir al extranjero y las que han venido del extranjero. 
-                             Casi 26 millones de registros.
+  * solo_migr_2006_2021.csv: se eliminan del archivo anterior las migraciones de personas que se han ido a vivir al extranjero y las que han venido del extranjero. Casi 26 millones de registros.
   * cod_muni.csv: Relación de códigos de municipio y nombre.
   * cod_prov.csv: Relación de códigos de provincia y nombre.
   * cod_ccaa.csv: Relación de códigos de comunidades autónomas y nombre. Y también códigos de provincia y nombre que le pertenece a cada una.
@@ -38,6 +37,7 @@ Para realizar el estudio he preparado 4 notebooks y una librería de funciones (
   * Lineplot del número de migraciones por año y tamaño de municipio.
     <img src =  "https://github.com/Laura-Martin-Perez/Kwichon-in-Spain-/assets/113755985/805c2175-a784-4c62-ac96-497c8e38a844">
   * Gráfico Sankey de migraciones entre tamaño de municipios.
+    <img src = "https://github.com/Laura-Martin-Perez/Kwichon-in-Spain-/assets/113755985/8c8bcb84-3db8-4bf3-a6e1-2a3daba31603">
   * Gráfico de barras acumulado de migraciones distinguiendo entre las realizadas a zonas rurales o no rurales:
       Ratio del total de migraciones por por sexo.
       Migraciones por grupos de edad.
@@ -48,12 +48,15 @@ Para realizar el estudio he preparado 4 notebooks y una librería de funciones (
       Saldo de migraciones entre provincias.
       Saldo de migraciones entre provincias teniendo en cuenta el ratio de migraciones por la población en el año de inicio de la exploración.
       Saldo de migraciones rurales entre provincias.
+      <img src = "https://github.com/Laura-Martin-Perez/Kwichon-in-Spain-/assets/113755985/937903d6-90a4-4dbe-9df1-ef36728bc4da">
       Saldo de migraciones rurales entre provincias teniendo en cuenta el ratio de migraciones por la población en el año de inicio de la exploración.  
    * Gráficos circulares:
       Total de migraciones por provincia
       Solo migraciones entre diferentes provincias y en número superior al 10% del valor máximo
       Total de migraciones a zonas rurales por provincia  
       Solo migraciones a zonas rurales entre diferentes provincias y en número superior al 5% del valor máximo
+      <img src = "https://github.com/Laura-Martin-Perez/Kwichon-in-Spain-/assets/113755985/af16f2fa-4723-4f89-8efc-43fa2dd7b3cf">
+
 
 - Kwichon_Spain_Prediccion.ipynb: He entrenado  los datos de las migraciones entre los últimos años (2020 y 2021) con el modelo XGBoost(XGBClassifier) para obtener, a partir de las variables: sexo, edad, provincia de nacimiento y provincia de baja, la probabilidad (predictproba) del valor de la variable provincia de alta.
   Con este modelo propongo un ‘recomendador de pueblos’ en la aplicación Kwichon.py (con Streamlit).
@@ -62,6 +65,8 @@ Para realizar el estudio he preparado 4 notebooks y una librería de funciones (
   explorar la posibilidad de ir a vivir a un pueblo.
 
   Se muestran en un mapa los pueblos correspondientes al resultado de la predicción de las 3 provincias de destino que el modelo indica con la probabilidad más alta.
+  <img src = "https://github.com/Laura-Martin-Perez/Kwichon-in-Spain-/assets/113755985/1c1907d3-a8ad-4497-b443-cacb6b71c727">
+
 
 
 Por último, he preparado con Streamlit una aplicación donde muestro algunos gráficos resultado del estudio pudiendo escoger el rango de años a visualizar y un ‘recomendador de pueblos’ para ayudar a explorar a que pueblo nos podemos ir a vivir.
