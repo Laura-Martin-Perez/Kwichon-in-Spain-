@@ -65,6 +65,7 @@ Para realizar el estudio he preparado 4 notebooks y una librería de funciones (
   explorar la posibilidad de ir a vivir a un pueblo.
 
   Se muestran en un mapa los pueblos correspondientes al resultado de la predicción de las 3 provincias de destino que el modelo indica con la probabilidad más alta.
+  
   <img src = "https://github.com/Laura-Martin-Perez/Kwichon-in-Spain-/assets/113755985/1c1907d3-a8ad-4497-b443-cacb6b71c727">
 
 
