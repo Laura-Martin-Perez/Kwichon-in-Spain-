@@ -1,7 +1,8 @@
 # Kwichon (regreso a lo rural) en España
 Análisis de los movimientos migratorios dentro de España. ¿Se están volviendo a repoblar las zonas rurales?
 
-<img src="https://user-images.githubusercontent.com/113755985/229598369-47405110-7455-433a-afe0-997b46a52b91.png" width="500" height= "350">
+<img src="https://user-images.githubusercontent.com/113755985/229598369-47405110-7455-433a-afe0-997b46a52b91.png" width="500" height= "350
+"">
 
 ## INTRODUCCIÓN
 En Corea del Sur, la población está migrando a zonas rurales durante los últimos años (a raíz de la pandemia) y a este fenómeno lo llaman KWICHON. Esta palabra significa literalmente 'vuelta a lo rural').
@@ -35,7 +36,7 @@ Para realizar el estudio he preparado 4 notebooks y una librería de funciones (
 
 - Kwichon_Spain_Visualizaciones_municipios.ipynb: Preparación de datos y visualización de migraciones teniendo en cuenta los tamaños del municipio.
   * Lineplot del número de migraciones por año y tamaño de municipio.
-    <img src =  "https://github.com/Laura-Martin-Perez/Kwichon-in-Spain-/assets/113755985/805c2175-a784-4c62-ac96-497c8e38a844"
+    <img src =  "https://github.com/Laura-Martin-Perez/Kwichon-in-Spain-/assets/113755985/805c2175-a784-4c62-ac96-497c8e38a844">
   * Gráfico Sankey de migraciones entre tamaño de municipios.
   * Gráfico de barras acumulado de migraciones distinguiendo entre las realizadas a zonas rurales o no rurales:
       Ratio del total de migraciones por por sexo.
